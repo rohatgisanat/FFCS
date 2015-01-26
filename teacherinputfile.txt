@@ -1,0 +1,31 @@
+ENG101_NULL_Prof.Prasantha Kumar_Prof. Kanishq M.
+ENG201_ENG101_Prof.Shraddha Seva 
+ENG301_ENG201_Prof. Satya Narayana
+ENG401_ENG301_Prof. Elavarasi M.
+CSE101_NULL_Prof. Murali Krishna_Prof. Manimaran S. 
+CSE201_CSE101_Prof. Rishin Haldar
+CSE301_CSE201_Prof. Gopinath M.P.
+CSE311_CSE201_Prof. Vijaysherly
+CSE401_CSE301_Prof. Saritha V._Prof. Sangeetha Goswami 
+CSE411_CSE311_Prof. Jagdish Kumar
+CSE421_CSE311_Prof. Padma R.
+CSE431_CSE311_Prof. Maria Singh  
+CSE441_CSE311_Prof. Sheetal Soni_Prof. Teena Swamy
+CSE501_CSE441_Prof. Arun Kumar
+CSE102_NULL_Prof. Raghuveer V.R.
+CSE202_CSE102_Prof. Saritha K.
+CSE302_CSE202_Prof. Kavitha P._Prof. Ameena Sheikh
+CSE402_CSE302_Prof. Manish Yadav
+CSE502_CSE402_Prof. Vivek P.
+CSE512_CSE402_Prof. Dinanath C.
+CSE103_NULL_Prof. Rahul Roy_Prof. Deepa Murthy
+CSE203_CSE103_Prof. Praveen Patel
+CSE303_CSE203_Prof. Nihal Jain
+CSE313_CSE203_Prof. Kalaivani M.
+CSE403_CSE303_Prof. Sudheer C.V._Prof. Kaavya Krishna
+CSE413_CSE303_Prof. Rajnath H.
+CSE503_CSE403_Prof. Rajkumar R.
+CSE513_CSE413_Prof. Yokesh Babu
+CSE523_CSE413_Prof. Ramesh Babu_Prof. Muralidharan k.
+CSE613_CSE513_Prof. Gopal Kumar
+CSE623_CSE523_Prof. Dinesh T.
