@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class Allocation extends javax.swing.JFrame {
@@ -62,7 +61,7 @@ public class Allocation extends javax.swing.JFrame {
         for (int g = 0; g < c; g++) {
             StudentDetails[g] = new FileRead();
         }
-        new FileRead().mainfunc(StudentDetails); //reads files and stores them in arrays
+        FileRead.mainfunc(StudentDetails); //reads files and stores them in arrays
     }       //Read and process files and store them
 
     void CoursePage() {           // Diplays info on the courses  available
@@ -71,12 +70,11 @@ public class Allocation extends javax.swing.JFrame {
        
          //   TeacherFileReader = new BufferedReader(new FileReader("teacherinputfile.txt"));
             t = t + ("<table border=\"2\"> <tr><td><b> COURSE ID</b></td> <td><b>PREREQUISITE</b></td></tr> ");
-            //while ((temp = TeacherFileReader.readLine()) != null) {
-            for(int l=0;l<Courses.length;l++){  
-            
+        //while ((temp = TeacherFileReader.readLine()) != null) {
+        for (Allocation Course : Courses) {
             StringTokenizer er = new StringTokenizer(temp, "_");
-                t += ("<tr><td>" + Courses[l].CouseId + "</td><td>" + Courses[l].Prerequisite + "</td></tr>");
-            }
+            t += ("<tr><td>" + Course.CouseId + "</td><td>" + Course.Prerequisite + "</td></tr>");
+        }
             t = "<html>" + t + "</table></html>";
             jEditorPane1.setText(t);
         
@@ -87,10 +85,10 @@ public class Allocation extends javax.swing.JFrame {
         String t = "";
 
         t += "<table border=\"2\"><tr><td><b>NAME</b></td><td><b>ID</b></td><td><b>YEAR</b></td><td><b>GRADE</b></td></tr>";
-        for (int e = 0; e < StudentDetails.length; e++) {
-            t += ("<tr><td>" + StudentDetails[e].Name + "</td><td>" + StudentDetails[e].ID + "</td><td>" + StudentDetails[e].Year + "</td>");        //Display history store in the FileRead array
-            for (int u = 0; u < StudentDetails[e].Grades.length; u++) {
-                t += (StudentDetails[e].CoursesDone[u] + "&nbsp;&nbsp;&nbsp;&nbsp;" + StudentDetails[e].Grades[u] + "<br>");
+        for (FileRead StudentDetail : StudentDetails) {
+            t += ("<tr><td>" + StudentDetail.Name + "</td><td>" + StudentDetail.ID + "</td><td>" + StudentDetail.Year + "</td>"); //Display history store in the FileRead array
+            for (int u = 0; u < StudentDetail.Grades.length; u++) {
+                t += (StudentDetail.CoursesDone[u] + "&nbsp;&nbsp;&nbsp;&nbsp;" + StudentDetail.Grades[u] + "<br>");
             }
             t += ("</td></tr>");
         }
@@ -104,10 +102,10 @@ public class Allocation extends javax.swing.JFrame {
 
         temp += ("<table border=\"2\"><tr><td><b>NAME</b></td><td><b>ID</b></td><td><b>YEAR</b></td><td><b>COURSES OPTED</b></td></tr>");
 
-        for (int h = 0; h < StudentDetails.length; h++) {
-            temp += ("<tr><td>" + StudentDetails[h].Name + "</td><td>" + StudentDetails[h].ID + "</td><td>" + StudentDetails[h].Year + "</td><td> ");
-            for (int r = 0; r < StudentDetails[h].CourseWanted.length; r++) {
-                temp += StudentDetails[h].CourseWanted[r] + "<br>";
+        for (FileRead StudentDetail : StudentDetails) {
+            temp += ("<tr><td>" + StudentDetail.Name + "</td><td>" + StudentDetail.ID + "</td><td>" + StudentDetail.Year + "</td><td> ");
+            for (String CourseWanted : StudentDetail.CourseWanted) {
+                temp += CourseWanted + "<br>";
             }
         }
         temp += ("</td></tr>");
@@ -146,34 +144,31 @@ public class Allocation extends javax.swing.JFrame {
 
     void alloted() throws FileNotFoundException, IOException, Exception { //Allot Students their courses
         String temp, e, f;
-        int i = 0;
+        
         int h = 0;
 
-        for (int l = 0; l < StudentDetails.length; l++) {
-            for (int r = 0; r < StudentDetails[l].CourseWanted.length; r++) {
-                e = StudentDetails[l].CourseWanted[r];
+        for (FileRead StudentDetail : StudentDetails) {
+            for (int r = 0; r < StudentDetail.CourseWanted.length; r++) {
+                e = StudentDetail.CourseWanted[r];
                 inner:
                 for (int q = 0; q < 30; q++) {
                     f = Courses[q].CouseId;
-                    if (e.equals(f)) {                              //Check if prereq re completed and the Grade N is not awarded
-                        for (h = 0; h < StudentDetails[l].CoursesDone.length; h++) {
-                            if (((Courses[q].Prerequisite).equals(StudentDetails[l].CoursesDone[h]) && StudentDetails[l].Grades[h] != 'N') || Courses[q].Prerequisite.equals("NULL")) {
-                                Courses[q].insert(StudentDetails[l].ID, StudentDetails[l].TeacherChoice[r]);     //insert into the teacher linkedlist
+                    if (e.equals(f)) {
+                        //Check if prereq re completed and the Grade N is not awarded
+                        for (h = 0; h < StudentDetail.CoursesDone.length; h++) {
+                            if (((Courses[q].Prerequisite).equals(StudentDetail.CoursesDone[h]) && StudentDetail.Grades[h] != 'N') || Courses[q].Prerequisite.equals("NULL")) {
+                                Courses[q].insert(StudentDetail.ID, StudentDetail.TeacherChoice[r]); //insert into the teacher linkedlist
                                 break inner;
                             }
                         }
                     }
-
                 }
-
             }
-
         }
 
         temp = "<tr><td><b>TEACHERS</b></td><td><b>STUDENTS</b></td></tr>";
-        for (int y = 0; y < Courses.length; y++) {
-            temp += Courses[y].dply();
-
+        for (Allocation Course : Courses) {
+            temp += Course.dply();
         }
 
         temp = "<html><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No. Of Students Present For Course Allocation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + StudentDetails.length + "</b><br><table border=\"2\">" + temp + "</table></html>";
@@ -194,8 +189,8 @@ public class Allocation extends javax.swing.JFrame {
     void PrintAfterDeletion() throws Exception {
         String q = "<tr><td><b>TEACHERS</b></td><td><b>STUDENTS</b></td></tr>";
         Courses[0].DeleteStudents(Courses);
-        for (int y = 0; y < Courses.length; y++) {
-            q += Courses[y].dply();
+        for (Allocation Course : Courses) {
+            q += Course.dply();
         }
         q = "<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>No. Of Students Present For Course Allocation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + StudentDetails.length + "</b><br><table border=\"2\">" + q + "</table></html>";
         System.out.println(temp);
@@ -211,12 +206,11 @@ public class Allocation extends javax.swing.JFrame {
             roll = ssdel.nextToken();
             coursedel = ssdel.nextToken();
 
-            for (int i = 0; i < clobj1.length; i++) {
-                if (coursedel.equals(clobj1[i].CouseId)) {
-
-                    clobj1[i].RollList1.delany(clobj1[i].Teacher1, roll);
-                    if (!(clobj1[i].Teacher2).equals("  ")) {
-                        clobj1[i].RollList2.delany(clobj1[i].Teacher2, roll);
+            for (Allocation clobj11 : clobj1) {
+                if (coursedel.equals(clobj11.CouseId)) {
+                    clobj11.RollList1.delany(clobj11.Teacher1, roll);
+                    if (!(clobj11.Teacher2).equals("  ")) {
+                        clobj11.RollList2.delany(clobj11.Teacher2, roll);
                     }
                 }
             }
@@ -523,7 +517,6 @@ public class Allocation extends javax.swing.JFrame {
         jd1.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         jd1.setTitle("Warning!");
         jd1.setMinimumSize(new Dimension(300, 100));
-        JTextField jt = new JTextField();
         JTextField jt3 = new JTextField();
         jd1.add(jt3);
         jd1.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
